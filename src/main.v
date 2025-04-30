@@ -5,6 +5,17 @@ Inductive myeq {A: Type}: A -> A -> Prop :=
 Notation "x = y" := (myeq x y): type_scope.
 Hint Constructors myeq.
 
+Theorem myeq_spec:
+  forall (A: Type) (x y: A),
+  eq x y <-> myeq x y.
+Proof.
+  intros A x y.
+  split;
+  intros H;
+  inversion H;
+  constructor.
+Qed.
+
 Inductive mynat: Type :=
   | MO: mynat
   | MS: forall (_: mynat), mynat.
