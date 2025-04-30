@@ -78,12 +78,6 @@ Definition plus_0_l:
 Print plus_0_l'.
 Print plus_0_l.
 
-Definition eq_ind_r:
-  forall (A:Type) (x:A) (P:A -> Prop), P x -> forall y:A, eq y x -> P y.
-  intros A x P H y H0.
-  elim eq_sym with (1 := H0). assumption.
-Defined.
-
 Lemma myeq_ind_r':
   forall [A: Type] (P: A -> Prop) (x: A) (y: A),
   P x ->
