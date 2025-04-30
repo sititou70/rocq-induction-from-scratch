@@ -1,4 +1,4 @@
-(* Set Printing All. *)
+Set Printing All.
 
 Inductive myeq {A: Type}: A -> A -> Prop :=
   | myeq_refl: forall (x: A), myeq x x.
@@ -17,8 +17,6 @@ Proof.
   constructor.
 Qed.
 
-Print eq_ind_r.
-
 Lemma myeq_ind_r:
   forall [A: Type] (P: A -> Prop) (x: A) (y: A),
   P x ->
@@ -35,22 +33,14 @@ Inductive mynat: Type :=
   | MO: mynat
   | MS: forall (_: mynat), mynat.
 
-Fixpoint to_mynat (n: nat): mynat :=
-  match n with
-    | O => MO
-    | S n' => MS (to_mynat n')
-  end.
-Example test_to_mynat1: to_mynat 0 = MO. Proof. auto. Qed.
-Example test_to_mynat2: to_mynat 3 = MS (MS (MS MO)). Proof. auto. Qed.
-
 Fixpoint myadd (x: mynat) (y: mynat): mynat :=
   match x with
     | MO => y
     | MS x' => MS (myadd x' y)
   end.
 Notation "x + y" := (myadd x y).
-Example test_myadd1: (to_mynat 1) + (to_mynat 0) = to_mynat 1. Proof. auto. Qed.
-Example test_myadd2: (to_mynat 2) + (to_mynat 3) = to_mynat 5. Proof. auto. Qed.
+Example test_myadd1: (MS MO) + (MO) = (MS MO). Proof. auto. Qed.
+Example test_myadd2: (MS (MS MO)) + (MS (MS (MS MO))) = MS (MS (MS (MS (MS MO)))). Proof. auto. Qed.
 
 Definition plus_0_l:
   forall (n: mynat),
