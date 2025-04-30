@@ -50,6 +50,7 @@ Proof.
   intros n.
   apply myeq_refl.
 Qed.
+
 Definition plus_0_l:
   forall (n: mynat),
   MO + n = n
