@@ -5,6 +5,22 @@ Inductive myeq {A: Type}: A -> A -> Prop :=
 Notation "x = y" := (myeq x y): type_scope.
 Hint Constructors myeq.
 
+Print myeq_ind.
+Definition myeq_myind:
+  forall
+    (A: Type)
+    (P: forall (x y: A), Prop)
+    (fmyeq_refl: forall refl_x, P refl_x refl_x),
+    forall (x y: A) (Heq: myeq x y), P x y :=
+  fun
+    (A: Type)
+    (P: forall (x y: A), Prop)
+    (fmyeq_refl: forall refl_x, P refl_x refl_x) =>
+    fix rec (x y: A) (Heq: myeq x y) :=
+      match Heq with
+        | myeq_refl refl_x => fmyeq_refl refl_x
+      end.
+
 Theorem myeq_spec:
   forall (A: Type) (x y: A),
   eq x y <-> myeq x y.
@@ -19,7 +35,7 @@ Qed.
 Inductive mynat: Type :=
   | MO: mynat
   | MS: forall (_: mynat), mynat.
-
+Print mynat_ind.
 Definition mynat_myind:
   forall
     (P: forall (_: mynat), Prop)
@@ -95,7 +111,7 @@ Definition myeq_ind_r:
   y = x ->
   P y :=
   fun (A: Type) (P: A -> Prop) (x: A) (y: A) (HPx: P x) (Heq: y = x) =>
-    myeq_ind
+    myeq_myind
       A
       (fun (a b: A) => forall (Pb: P b), P a)
       (fun (_: A) => fun pa => pa)
