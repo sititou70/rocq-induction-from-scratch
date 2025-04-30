@@ -20,6 +20,22 @@ Inductive mynat: Type :=
   | MO: mynat
   | MS: forall (_: mynat), mynat.
 
+Definition mynat_myind:
+  forall
+    (P: forall (_: mynat), Prop)
+    (fmo: P MO)
+    (fms: forall (n': mynat), P n' -> P (MS n')),
+  forall (n: mynat), P n :=
+  fun
+    (P: forall (_: mynat), Prop)
+    (fmo: P MO)
+    (fms: forall (n': mynat), P n' -> P (MS n')) =>
+    fix rec (n: mynat) :=
+      match n with
+        | MO => fmo
+        | MS n' => (fms n') (rec n')
+      end.
+
 Definition myadd:
   forall (x y: mynat), mynat :=
   fix myadd (x: mynat) (y: mynat): mynat :=
@@ -118,7 +134,7 @@ Definition plus_0_r:
   forall (n: mynat),
   n + MO = n :=
   fun (n: mynat) =>
-  mynat_ind
+  mynat_myind
     (fun (n: mynat) => n + MO = n)
     (myeq_refl MO)
     (
