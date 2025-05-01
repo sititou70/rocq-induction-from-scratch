@@ -1,6 +1,6 @@
 Require Import definitions.
 
-(* Set Printing All. *)
+Set Printing All.
 
 Definition myadd:
   forall (x y: mynat), mynat :=

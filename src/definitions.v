@@ -1,3 +1,5 @@
+Set Printing All.
+
 Inductive myeq {A: Type}: A -> A -> Prop :=
   | myeq_refl: forall (x: A), myeq x x.
 Notation "x = y" := (myeq x y): type_scope.
