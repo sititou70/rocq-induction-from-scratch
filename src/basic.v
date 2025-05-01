@@ -60,21 +60,15 @@ Definition myeq_ind_r:
   P x ->
   y = x ->
   P y :=
-  fun
-    (A: Type)
-    (P: A -> Prop)
-    (x: A)
-    (y: A)
-    (HPx: P x)
-    (Heq: y = x) =>
-      myeq_myind
-        A
-        (fun (x y: A) => forall (Py: P y), P x)
-        (fun (refl_x: A) => fun (Prefl_x: P refl_x) => Prefl_x)
-        y
-        x
-        Heq
-        HPx.
+  fun (A: Type) (P: A -> Prop) (x: A) (y: A) (HPx: P x) (Heq: y = x) =>
+    myeq_myind
+      A
+      (fun (x y: A) => forall (Py: P y), P x)
+      (fun (refl_x: A) => fun (Prefl_x: P refl_x) => Prefl_x)
+      y
+      x
+      Heq
+      HPx.
 
 Print myeq_ind_r'.
 Print myeq_ind_r.

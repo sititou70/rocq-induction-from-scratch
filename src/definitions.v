@@ -10,7 +10,8 @@ Definition myeq_myind:
     (A: Type)
     (P: forall (x y: A), Prop)
     (fmyeq_refl: forall refl_x, P refl_x refl_x),
-    forall (x y: A) (Heq: myeq x y), P x y :=
+  forall (x y: A) (Heq: myeq x y),
+    P x y :=
   fun
     (A: Type)
     (P: forall (x y: A), Prop)
@@ -40,7 +41,8 @@ Definition mynat_myind:
     (P: forall (_: mynat), Prop)
     (fmo: P MO)
     (fms: forall (n': mynat), P n' -> P (MS n')),
-  forall (n: mynat), P n :=
+  forall (n: mynat),
+    P n :=
   fun
     (P: forall (_: mynat), Prop)
     (fmo: P MO)

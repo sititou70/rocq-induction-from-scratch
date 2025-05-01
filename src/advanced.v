@@ -42,21 +42,15 @@ Definition myeq_ind_r:
   P x ->
   y = x ->
   P y :=
-  fun
-    (A: Type)
-    (P: A -> Prop)
-    (x: A)
-    (y: A)
-    (HPx: P x)
-    (Heq: y = x) =>
-      myeq_myind
-        A
-        (fun (x y: A) => forall (Py: P y), P x)
-        (fun (refl_x: A) => fun (Prefl_x: P refl_x) => Prefl_x)
-        y
-        x
-        Heq
-        HPx.
+  fun (A: Type) (P: A -> Prop) (x: A) (y: A) (HPx: P x) (Heq: y = x) =>
+    myeq_myind
+      A
+      (fun (x y: A) => forall (Py: P y), P x)
+      (fun (refl_x: A) => fun (Prefl_x: P refl_x) => Prefl_x)
+      y
+      x
+      Heq
+      HPx.
 
 Definition plus_0_r:
   forall (n: mynat),
@@ -118,45 +112,45 @@ Definition plus_comm_base:
     )
       y.
 Definition plus_comm_induction:
-forall (x y: mynat) (IHx: x + y = y + x),
-(MS x) + y = y + (MS x) :=
-fun (x y: mynat) (IHx: x + y = y + x) =>
-  (
-    mynat_myind
-      (fun (y: mynat) => (MS x) + y = y + (MS x))
-      (plus_0_r (MS x))
-      (
-        fun (y: mynat) (IHy: (MS x) + y = y + (MS x)) =>
-          let exp1:
-            MS ((MS x) + y) = MS ((MS x) + y) :=
-            (myeq_refl (MS ((MS x) + y)))
-          in
-          let exp2:
-            MS (x + (MS y)) = MS ((MS x) + y) :=
-            myeq_ind_r
-              (fun (target: mynat) => MS target = MS ((MS x) + y))
-              ((MS x) + y)
-              (x + (MS y))
-              exp1
-              (myeq_sym (plus_MS_move x y))
-          in
-          let exp3:
-            MS (x + (MS y)) = MS (y + (MS x)) :=
-            myeq_ind_r
-              (fun (target: mynat) => MS (x + (MS y)) = MS target)
-              ((MS x) + y)
-              (y + (MS x))
-              exp2
-              (myeq_sym IHy)
-          in
-          let exp4:
-            (MS x) + (MS y) = MS y + (MS x) :=
-            exp3
-          in
-          exp4
-      )
-  )
-    y.
+  forall (x y: mynat) (IHx: x + y = y + x),
+  (MS x) + y = y + (MS x) :=
+  fun (x y: mynat) (IHx: x + y = y + x) =>
+    (
+      mynat_myind
+        (fun (y: mynat) => (MS x) + y = y + (MS x))
+        (plus_0_r (MS x))
+        (
+          fun (y: mynat) (IHy: (MS x) + y = y + (MS x)) =>
+            let exp1:
+              MS ((MS x) + y) = MS ((MS x) + y) :=
+              (myeq_refl (MS ((MS x) + y)))
+            in
+            let exp2:
+              MS (x + (MS y)) = MS ((MS x) + y) :=
+              myeq_ind_r
+                (fun (target: mynat) => MS target = MS ((MS x) + y))
+                ((MS x) + y)
+                (x + (MS y))
+                exp1
+                (myeq_sym (plus_MS_move x y))
+            in
+            let exp3:
+              MS (x + (MS y)) = MS (y + (MS x)) :=
+              myeq_ind_r
+                (fun (target: mynat) => MS (x + (MS y)) = MS target)
+                ((MS x) + y)
+                (y + (MS x))
+                exp2
+                (myeq_sym IHy)
+            in
+            let exp4:
+              (MS x) + (MS y) = MS y + (MS x) :=
+              exp3
+            in
+            exp4
+        )
+    )
+      y.
 Definition plus_comm:
   forall (x y: mynat),
   x + y = y + x :=
