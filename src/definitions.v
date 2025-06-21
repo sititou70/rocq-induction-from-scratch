@@ -15,7 +15,7 @@ Definition myeq_myind:
   fun
     (A: Type)
     (P: forall (x y: A), Prop)
-    (fmyeq_refl: forall refl_x, P refl_x refl_x) =>
+    (fmyeq_refl: forall (refl_x: A), P refl_x refl_x) =>
     fix rec (x y: A) (Heq: myeq x y) :=
       match Heq with
         | myeq_refl refl_x => fmyeq_refl refl_x
